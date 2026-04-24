@@ -1,0 +1,71 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Saved Recipes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ng-container *ngIf="savedRecipes.length > 0; else emptyState">
+    <p class="section-header">{{ savedRecipes.length }} saved recipe{{ savedRecipes.length !== 1 ? 's' : '' }}</p>
+
+    <div class="saved-grid">
+      <ion-card
+        *ngFor="let recipe of savedRecipes"
+        class="saved-card">
+        <div class="card-image-wrapper" (click)="openRecipe(recipe)">
+          <img
+            [src]="recipe.userPhotoUrl ?? recipe.imageUrl"
+            [alt]="recipe.title"
+            class="card-img" />
+          <div class="user-photo-badge" *ngIf="recipe.userPhotoUrl">
+            <ion-icon name="camera-outline" />
+          </div>
+        </div>
+
+        <ion-card-header (click)="openRecipe(recipe)">
+          <ion-card-title>{{ recipe.title }}</ion-card-title>
+          <ion-card-subtitle>{{ recipe.cuisine }}</ion-card-subtitle>
+        </ion-card-header>
+
+        <ion-card-content>
+          <div class="card-meta">
+            <span class="meta-pill">
+              <ion-icon name="time-outline" /> {{ getTotalTime(recipe) }}m
+            </span>
+            <ion-badge [color]="recipe.difficulty === 'Easy' ? 'success' : recipe.difficulty === 'Medium' ? 'warning' : 'danger'">
+              {{ recipe.difficulty }}
+            </ion-badge>
+          </div>
+
+          <div class="card-actions">
+            <ion-button fill="outline" size="small" color="primary" (click)="updatePhoto(recipe)">
+              <ion-icon name="camera-outline" slot="start" />
+              Photo
+            </ion-button>
+            <ion-button fill="outline" size="small" color="danger" (click)="confirmRemove(recipe)">
+              <ion-icon name="trash-outline" />
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </ng-container>
+
+  <ng-template #emptyState>
+    <div class="empty-state">
+      <ion-icon name="bookmark-outline" />
+      <h3>No saved recipes yet</h3>
+      <p>Tap the ❤️ icon on any recipe to save it here</p>
+    </div>
+  </ng-template>
+
+  <div style="height: 32px;"></div>
+</ion-content>
+
+<ion-toast
+  [isOpen]="showToast"
+  [message]="toastMessage"
+  duration="2000"
+  position="bottom"
+  (didDismiss)="showToast = false">
+</ion-toast>

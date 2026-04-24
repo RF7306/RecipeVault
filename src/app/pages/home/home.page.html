@@ -1,0 +1,78 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>🍳 RecipeVault</ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar
+      placeholder="Search recipes, cuisines, tags..."
+      [value]="searchTerm"
+      (ionInput)="onSearchChange($event)"
+      animated="true"
+      debounce="300">
+    </ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="chip-row">
+    <ion-chip
+      *ngFor="let cat of categories"
+      [color]="activeCategory === cat ? 'primary' : 'medium'"
+      [outline]="activeCategory !== cat"
+      (click)="selectCategory(cat)">
+      <ion-label>{{ cat }}</ion-label>
+    </ion-chip>
+  </div>
+
+  <ng-container *ngIf="!isLoading; else loadingState">
+    <ng-container *ngIf="filteredRecipes.length > 0; else emptyState">
+      <p class="section-header">{{ filteredRecipes.length }} recipes found</p>
+      <div class="card-grid">
+        <ion-card
+          *ngFor="let recipe of filteredRecipes; trackBy: trackById"
+          class="recipe-card"
+          (click)="openRecipe(recipe)">
+          <img
+            [src]="recipe.imageUrl"
+            [alt]="recipe.title"
+            class="card-thumbnail"
+            loading="lazy" />
+          <ion-card-header>
+            <ion-card-title>{{ recipe.title }}</ion-card-title>
+            <ion-card-subtitle>{{ recipe.cuisine }}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <div class="meta-row">
+              <span class="meta-item">
+                <ion-icon name="time-outline" /> {{ getTotalTime(recipe) }}m
+              </span>
+              <ion-badge [color]="recipe.difficulty === 'Easy' ? 'success' : recipe.difficulty === 'Medium' ? 'warning' : 'danger'">
+                {{ recipe.difficulty }}
+              </ion-badge>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </ng-container>
+  </ng-container>
+
+  <ng-template #loadingState>
+    <div class="card-grid">
+      <ion-card *ngFor="let i of [1,2,3,4,5,6]" class="recipe-card skeleton-card">
+        <ion-skeleton-text animated style="height: 130px; width: 100%;" />
+        <ion-card-header>
+          <ion-skeleton-text animated style="height: 16px; width: 80%;" />
+          <ion-skeleton-text animated style="height: 12px; width: 50%; margin-top: 6px;" />
+        </ion-card-header>
+      </ion-card>
+    </div>
+  </ng-template>
+
+  <ng-template #emptyState>
+    <div class="empty-state">
+      <ion-icon name="flame-outline" />
+      <h3>No recipes found</h3>
+      <p>Try a different search term or category</p>
+    </div>
+  </ng-template>
+</ion-content>

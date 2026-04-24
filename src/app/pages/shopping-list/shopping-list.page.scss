@@ -1,0 +1,57 @@
+.list-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+
+  .checked-count {
+    font-size: 0.85rem;
+    color: var(--ion-color-success);
+    font-weight: 600;
+  }
+}
+
+.shopping-items {
+  padding: 0 12px;
+
+  ion-list-header {
+    ion-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 700;
+    }
+  }
+}
+
+.list-item {
+  --background: var(--ion-toolbar-background);
+  --border-radius: 10px;
+  margin-bottom: 6px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+
+  &.checked {
+    opacity: 0.5;
+
+    .item-name {
+      text-decoration: line-through;
+    }
+  }
+
+  .item-name {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--ion-color-dark);
+  }
+
+  .item-amount {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--ion-color-primary);
+  }
+}
+
+.clear-btn-wrapper {
+  padding: 16px;
+}

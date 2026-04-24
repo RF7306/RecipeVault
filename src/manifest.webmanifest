@@ -1,0 +1,17 @@
+{
+  "name": "RecipeVault",
+  "short_name": "RecipeVault",
+  "theme_color": "#e85d04",
+  "background_color": "#f4f5f8",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "assets/icon/favicon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ]
+}

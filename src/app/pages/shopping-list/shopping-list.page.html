@@ -1,0 +1,92 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Shopping List</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="clearChecked()" *ngIf="checkedItems.length > 0">
+        <ion-icon name="trash-outline" color="light" />
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ng-container *ngIf="shoppingList.length > 0; else emptyState">
+    <div class="list-summary">
+      <ion-badge color="primary">{{ uncheckedItems.length }} remaining</ion-badge>
+      <span *ngIf="checkedItems.length > 0" class="checked-count">
+        {{ checkedItems.length }} done ✓
+      </span>
+    </div>
+
+    <ion-list lines="none" class="shopping-items">
+      <ion-list-header *ngIf="uncheckedItems.length > 0">
+        <ion-label>To get</ion-label>
+      </ion-list-header>
+
+      <ion-item
+        *ngFor="let item of uncheckedItems"
+        class="list-item"
+        (click)="toggleItem(item)">
+        <ion-checkbox
+          slot="start"
+          [checked]="item.checked"
+          color="primary">
+        </ion-checkbox>
+        <ion-label>
+          <span class="item-name">{{ item.name }}</span>
+        </ion-label>
+        <ion-note slot="end" class="item-amount">
+          {{ item.amount }} {{ item.unit }}
+        </ion-note>
+      </ion-item>
+
+      <ng-container *ngIf="checkedItems.length > 0">
+        <ion-list-header>
+          <ion-label color="medium">Done</ion-label>
+        </ion-list-header>
+
+        <ion-item
+          *ngFor="let item of checkedItems"
+          class="list-item checked"
+          (click)="toggleItem(item)">
+          <ion-checkbox
+            slot="start"
+            [checked]="item.checked"
+            color="primary">
+          </ion-checkbox>
+          <ion-label>
+            <span class="item-name">{{ item.name }}</span>
+          </ion-label>
+          <ion-note slot="end" class="item-amount">
+            {{ item.amount }} {{ item.unit }}
+          </ion-note>
+        </ion-item>
+      </ng-container>
+    </ion-list>
+
+    <div class="clear-btn-wrapper" *ngIf="checkedItems.length > 0">
+      <ion-button expand="block" fill="outline" color="medium" (click)="clearChecked()">
+        <ion-icon name="checkmark-done-outline" slot="start" />
+        Remove {{ checkedItems.length }} done item{{ checkedItems.length !== 1 ? 's' : '' }}
+      </ion-button>
+    </div>
+  </ng-container>
+
+  <ng-template #emptyState>
+    <div class="empty-state">
+      <ion-icon name="cart-outline" />
+      <h3>Your list is empty</h3>
+      <p>Add meals to your planner and your shopping list will be generated automatically</p>
+    </div>
+  </ng-template>
+
+  <div style="height: 32px;"></div>
+</ion-content>
+
+<ion-toast
+  [isOpen]="showToast"
+  [message]="toastMessage"
+  duration="2000"
+  position="bottom"
+  (didDismiss)="showToast = false">
+</ion-toast>

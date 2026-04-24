@@ -1,0 +1,73 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Meal Planner</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="clearPlan()" *ngIf="plannedMealCount > 0">
+        <ion-icon name="trash-outline" color="light" />
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="summary-banner" *ngIf="plannedMealCount > 0">
+    <span>{{ plannedMealCount }} meal{{ plannedMealCount !== 1 ? 's' : '' }} planned this week</span>
+    <span class="summary-sub">Shopping list auto-updated ✓</span>
+  </div>
+
+  <div class="week-grid">
+    <div *ngFor="let day of mealPlan" class="day-card">
+      <div class="day-header">
+        <span class="day-label">{{ formatDay(day.date) }}</span>
+        <span class="date-label">{{ day.date | date:'d MMM' }}</span>
+      </div>
+
+      <div class="meals-column">
+        <div *ngFor="let mealType of mealTypes" class="meal-slot">
+          <div class="meal-type-label">
+            <ion-icon [name]="mealIcons[mealType]" />
+            <span>{{ mealType | titlecase }}</span>
+          </div>
+
+          <div *ngIf="getRecipeForMeal(day, mealType) as recipe; else emptySlot"
+               class="meal-assigned">
+            <img [src]="recipe.imageUrl" [alt]="recipe.title" class="meal-thumb" />
+            <div class="meal-info" (click)="openRecipe(recipe)">
+              <span class="meal-title">{{ recipe.title }}</span>
+              <span class="meal-meta">{{ recipe.prepTime + recipe.cookTime }}m · {{ recipe.difficulty }}</span>
+            </div>
+            <ion-button
+              fill="clear"
+              size="small"
+              (click)="removeFromPlan(day, mealType)">
+              <ion-icon name="close-outline" color="medium" />
+            </ion-button>
+          </div>
+
+          <ng-template #emptySlot>
+            <button class="add-meal-btn" (click)="pickRecipe(day, mealType)">
+              <ion-icon name="add-outline" />
+              <span>Add recipe</span>
+            </button>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="empty-state" *ngIf="plannedMealCount === 0">
+    <ion-icon name="partly-sunny-outline" />
+    <h3>No meals planned yet</h3>
+    <p>Tap + to add recipes to your week</p>
+  </div>
+
+  <div style="height: 32px;"></div>
+</ion-content>
+
+<ion-toast
+  [isOpen]="showToast"
+  [message]="toastMessage"
+  duration="2000"
+  position="bottom"
+  (didDismiss)="showToast = false">
+</ion-toast>

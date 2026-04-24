@@ -1,0 +1,166 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" />
+    </ion-buttons>
+    <ion-title>{{ recipe?.title }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="toggleFavourite()">
+        <ion-icon [name]="isFavourite ? 'heart' : 'heart-outline'" [color]="isFavourite ? 'danger' : 'light'" />
+      </ion-button>
+      <ion-button (click)="takePhoto()">
+        <ion-icon name="camera-outline" color="light" />
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="recipe">
+  <div class="hero-image-wrapper">
+    <img
+      [src]="userPhoto ?? recipe.imageUrl"
+      [alt]="recipe.title"
+      class="hero-image" />
+    <div class="hero-overlay">
+      <h1 class="hero-title">{{ recipe.title }}</h1>
+      <p class="hero-cuisine">{{ recipe.cuisine }} · {{ recipe.category }}</p>
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-item">
+      <ion-icon name="time-outline" color="primary" />
+      <span class="stat-value">{{ getTotalTime() }}m</span>
+      <span class="stat-label">Total</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <ion-icon name="restaurant-outline" color="primary" />
+      <span class="stat-value">{{ recipe.prepTime }}m</span>
+      <span class="stat-label">Prep</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <ion-icon name="people-outline" color="primary" />
+      <span class="stat-value">{{ recipe.servings }}</span>
+      <span class="stat-label">Serves</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <ion-badge [color]="recipe.difficulty === 'Easy' ? 'success' : recipe.difficulty === 'Medium' ? 'warning' : 'danger'">
+        {{ recipe.difficulty }}
+      </ion-badge>
+    </div>
+  </div>
+
+  <div class="description-section">
+    <p>{{ recipe.description }}</p>
+    <div class="tag-row">
+      <ion-chip *ngFor="let tag of recipe.tags" color="secondary" outline="true">
+        <ion-label># {{ tag }}</ion-label>
+      </ion-chip>
+    </div>
+  </div>
+
+  <div class="servings-section">
+    <div class="servings-header">
+      <span class="section-header" style="padding: 0;">Servings</span>
+      <span class="servings-value">{{ servings }}</span>
+    </div>
+    <ion-range
+      [(ngModel)]="servings"
+      [min]="1"
+      [max]="12"
+      [step]="1"
+      [pin]="true"
+      color="primary">
+    </ion-range>
+  </div>
+
+  <div class="add-plan-btn">
+    <ion-button expand="block" color="primary" (click)="addToMealPlan()">
+      <ion-icon name="calendar-outline" slot="start" />
+      Add to Meal Plan
+    </ion-button>
+  </div>
+
+  <div class="tab-bar">
+    <button
+      class="tab-btn"
+      [class.active]="activeTab === 'ingredients'"
+      (click)="setActiveTab('ingredients')">
+      Ingredients
+    </button>
+    <button
+      class="tab-btn"
+      [class.active]="activeTab === 'steps'"
+      (click)="setActiveTab('steps')">
+      Steps
+    </button>
+    <button
+      class="tab-btn"
+      [class.active]="activeTab === 'nutrition'"
+      (click)="setActiveTab('nutrition')">
+      Nutrition
+    </button>
+  </div>
+
+  <div class="tab-content" *ngIf="activeTab === 'ingredients'">
+    <p class="scale-note">Scaled for {{ servings }} serving{{ servings !== 1 ? 's' : '' }}</p>
+    <div class="ingredient-list">
+      <div *ngFor="let ingredient of recipe.ingredients" class="ingredient-item">
+        <span class="ingredient-name">{{ ingredient.name }}</span>
+        <span class="ingredient-amount">
+          {{ scaleAmount(ingredient) }} {{ ingredient.unit }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-content" *ngIf="activeTab === 'steps'">
+    <div
+      *ngFor="let step of recipe.steps; let i = index"
+      class="step-item"
+      [class.completed]="isStepComplete(i)"
+      (click)="toggleStep(i)">
+      <div class="step-number" [class.done]="isStepComplete(i)">
+        <ion-icon *ngIf="isStepComplete(i)" name="checkmark-circle" color="success" />
+        <span *ngIf="!isStepComplete(i)">{{ i + 1 }}</span>
+      </div>
+      <p class="step-text">{{ step }}</p>
+    </div>
+    <p class="steps-hint">Tap a step to mark it as done</p>
+  </div>
+
+  <div class="tab-content" *ngIf="activeTab === 'nutrition'">
+    <p class="scale-note">Per serving ({{ servings }} total)</p>
+    <div class="nutrition-grid">
+      <div class="nutrition-card calories">
+        <span class="nut-value">{{ recipe.nutrition.calories }}</span>
+        <span class="nut-label">Calories</span>
+      </div>
+      <div class="nutrition-card">
+        <span class="nut-value">{{ recipe.nutrition.protein }}g</span>
+        <span class="nut-label">Protein</span>
+      </div>
+      <div class="nutrition-card">
+        <span class="nut-value">{{ recipe.nutrition.carbs }}g</span>
+        <span class="nut-label">Carbs</span>
+      </div>
+      <div class="nutrition-card">
+        <span class="nut-value">{{ recipe.nutrition.fat }}g</span>
+        <span class="nut-label">Fat</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="height: 32px;"></div>
+</ion-content>
+
+<ion-toast
+  [isOpen]="showToast"
+  [message]="toastMessage"
+  duration="2000"
+  position="bottom"
+  (didDismiss)="showToast = false">
+</ion-toast>

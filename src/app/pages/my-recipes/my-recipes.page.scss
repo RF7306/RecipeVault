@@ -1,0 +1,76 @@
+.saved-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 16px;
+  padding: 0 16px;
+}
+
+.saved-card {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+
+  ion-card-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+
+  ion-card-subtitle {
+    font-size: 0.75rem;
+  }
+
+  .card-image-wrapper {
+    position: relative;
+    cursor: pointer;
+
+    .card-img {
+      width: 100%;
+      height: 130px;
+      object-fit: cover;
+    }
+
+    .user-photo-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: var(--ion-color-primary);
+      color: white;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+  }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+
+    .meta-pill {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.78rem;
+      color: var(--ion-color-medium);
+
+      ion-icon {
+        font-size: 13px;
+      }
+    }
+  }
+
+  .card-actions {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+
+    ion-button:first-child {
+      flex: 1;
+    }
+  }
+}

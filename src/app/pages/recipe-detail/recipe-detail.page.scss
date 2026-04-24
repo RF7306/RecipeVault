@@ -1,0 +1,274 @@
+.hero-image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 260px;
+  overflow: hidden;
+
+  .hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 24px 16px 16px;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+
+    .hero-title {
+      color: #fff;
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin: 0 0 4px;
+      line-height: 1.2;
+    }
+
+    .hero-cuisine {
+      color: rgba(255,255,255,0.85);
+      font-size: 0.9rem;
+      margin: 0;
+    }
+  }
+}
+
+.stats-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 16px;
+  background: var(--ion-toolbar-background);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+
+    ion-icon {
+      font-size: 20px;
+    }
+
+    .stat-value {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--ion-color-dark);
+    }
+
+    .stat-label {
+      font-size: 0.7rem;
+      color: var(--ion-color-medium);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+  }
+
+  .stat-divider {
+    width: 1px;
+    height: 36px;
+    background: var(--ion-color-light-shade);
+  }
+}
+
+.description-section {
+  padding: 16px;
+
+  p {
+    color: var(--ion-color-medium);
+    font-size: 0.92rem;
+    line-height: 1.6;
+    margin: 0 0 12px;
+  }
+
+  .tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+}
+
+.servings-section {
+  padding: 8px 16px 0;
+  background: var(--ion-toolbar-background);
+  margin: 8px 16px;
+  border-radius: 12px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+
+  .servings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 12px;
+
+    .servings-value {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--ion-color-primary);
+    }
+  }
+}
+
+.add-plan-btn {
+  padding: 12px 16px;
+}
+
+.tab-bar {
+  display: flex;
+  margin: 0 16px 16px;
+  background: var(--ion-color-light-shade);
+  border-radius: 12px;
+  padding: 4px;
+  gap: 4px;
+
+  .tab-btn {
+    flex: 1;
+    padding: 10px 0;
+    border: none;
+    background: transparent;
+    border-radius: 9px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--ion-color-medium);
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &.active {
+      background: var(--ion-toolbar-background);
+      color: var(--ion-color-primary);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    }
+  }
+}
+
+.tab-content {
+  padding: 0 16px;
+
+  .scale-note {
+    font-size: 0.8rem;
+    color: var(--ion-color-medium);
+    margin: 0 0 12px;
+    font-style: italic;
+  }
+}
+
+.ingredient-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  .ingredient-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    background: var(--ion-toolbar-background);
+    border-radius: 8px;
+
+    .ingredient-name {
+      font-size: 0.9rem;
+      color: var(--ion-color-dark);
+    }
+
+    .ingredient-amount {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--ion-color-primary);
+    }
+  }
+}
+
+.step-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  margin-bottom: 8px;
+  background: var(--ion-toolbar-background);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+
+  &.completed {
+    opacity: 0.5;
+
+    .step-text {
+      text-decoration: line-through;
+    }
+  }
+
+  .step-number {
+    min-width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--ion-color-primary);
+    color: white;
+    font-weight: 700;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &.done {
+      background: transparent;
+
+      ion-icon {
+        font-size: 28px;
+      }
+    }
+  }
+
+  .step-text {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--ion-color-dark);
+    margin: 2px 0 0;
+  }
+}
+
+.steps-hint {
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--ion-color-medium);
+  margin-top: 8px;
+}
+
+.nutrition-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+
+  .nutrition-card {
+    background: var(--ion-toolbar-background);
+    border-radius: 12px;
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+
+    &.calories {
+      grid-column: 1 / -1;
+      background: var(--ion-color-primary);
+
+      .nut-value, .nut-label {
+        color: white;
+      }
+    }
+
+    .nut-value {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--ion-color-dark);
+    }
+
+    .nut-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--ion-color-medium);
+    }
+  }
+}
