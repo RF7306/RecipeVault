@@ -1,4 +1,5 @@
 # RecipeVault
+<<<<<<< HEAD
 
 A Progressive Web Application built with **Ionic 7** and **Angular 17** (standalone components).
 
@@ -28,3 +29,6 @@ ionic serve
 | Saved Recipes | `/my-recipes` |
 
 See the [Wiki](./WIKI.md) for the full User Guide.
+=======
+recipevault-project for front end development 2026
+>>>>>>> 810c20bb35805cd4b428f5904d239cc087f7a4b8
